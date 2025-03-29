@@ -1,6 +1,6 @@
 class ChooseNode extends EditorNode {
     constructor(x, y) {
-        super(x, y, 40, 40, Assets.multNode, ["Factor #1", "Factor #2"], ["Product"]);
+        super(x, y, 40, 40, Assets.multNode, ["N", "K"], ["N choose K"]);
     }
     static getSymbol(){
         return Assets.multNode;
