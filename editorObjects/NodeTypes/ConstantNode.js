@@ -14,7 +14,7 @@ class ConstantNode extends EditorNode {
 }
 class ConstantNode2 extends EditorNode {
     constructor(x, y) {
-        super(x, y, 100, 50, Assets.ham, [], ["Constant output"]);
+        super(x, y, 100, 50, Assets.ham, ["Simple input"], ["Constant output"]);
     }
     static getSymbol(){
         return Assets.ham;
