@@ -1,14 +1,15 @@
 
 
 const TARGET_SCREEN_DIMENSIONS = { x: 600, y: 400 }
-const SCREEN_DIMENSIONS = { x: 600, y: 400 }
+const OFFSET = { x: 600, y: 400 }
 let screenOn = "title"
 let scaleFactor = 1;
 let volume = 1;
 let screens;
 function preload() {
     screens = {"title": new TitleScreen(),
-        "game": new GameScreen()
+        "game": new GameScreen(),
+        "editor": new EditorScreen(),
     }
     Assets.loadAssets()
 }
@@ -27,7 +28,8 @@ function draw() {
     }
     let xTranslation = (windowWidth - scaleFactor * TARGET_SCREEN_DIMENSIONS.x) / 2
     let yTranslation = (windowHeight - scaleFactor * TARGET_SCREEN_DIMENSIONS.y) / 2
-
+    OFFSET.x = xTranslation;
+    OFFSET.y = yTranslation;
     translate(xTranslation, yTranslation)
 
     scale(scaleFactor, scaleFactor)
@@ -44,9 +46,8 @@ function mouseClicked() {
 function getMousePosition() {
     let mousePosition = { x: mouseX, y: mouseY }
 
-
-    mousePosition.x -= (windowWidth - scaleFactor * SCREEN_DIMENSIONS.x) / 2;
-    mousePosition.y -= (windowHeight - scaleFactor * SCREEN_DIMENSIONS.y) / 2;
+    mousePosition.x -= (windowWidth - scaleFactor * TARGET_SCREEN_DIMENSIONS.x) / 2;
+    mousePosition.y -= (windowHeight - scaleFactor * TARGET_SCREEN_DIMENSIONS.y) / 2;
     mousePosition.x /= scaleFactor;
     mousePosition.y /= scaleFactor;
 
