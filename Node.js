@@ -6,7 +6,7 @@ class Node {
   }
 
   evaluate() {
-    value = function(dependencies[0], dependencies[1]); // how does this work for ! lmao 
+    value = function(dependencies[0].value, dependencies[1].value); // how does this work for ! lmao 
     return value
   }
 }
