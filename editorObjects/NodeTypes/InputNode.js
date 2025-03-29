@@ -1,7 +1,7 @@
 class InputNode extends EditorNode {
     
     constructor(x, y ) {
-        super(x, y, 80, 40, Assets.inputNode, [], ["Input Value"]);
+        super(x, y, 80, 50, Assets.inputNode, [], ["Input Value"]);
     }
     static getSymbol(){
         return Assets.inputNode;
@@ -10,6 +10,6 @@ class InputNode extends EditorNode {
         return 80;
     }
     static getHeight(){
-        return 40;
+        return 50;
     }
 }

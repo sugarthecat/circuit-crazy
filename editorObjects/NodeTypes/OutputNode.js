@@ -1,7 +1,7 @@
 class OutputNode extends EditorNode {
 
     constructor(x, y) {
-        super(x, y, 80, 40, Assets.outputNode, ["Output"], []);
+        super(x, y, 80, 50, Assets.outputNode, ["Output"], []);
     }
     static getSymbol() {
         return Assets.outputNode;
@@ -10,7 +10,7 @@ class OutputNode extends EditorNode {
         return 80;
     }
     static getHeight() {
-        return 40;
+        return 50;
     }
     getFunction(){
         return ( (inputs)=> {

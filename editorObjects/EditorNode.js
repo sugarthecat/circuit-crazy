@@ -60,11 +60,23 @@ class EditorNode {
     hasInteraction(x, y) {
         return false
     }
-    DrawCircuit() {
+    DrawCircuitLayer1() {
         push()
         //draw nodes
-        stroke(0)
+        stroke(180, 60, 55)
+        strokeWeight(8)
+        this.DrawCircuitPaths();
+        pop()
+    }
+    DrawCircuitLayer2() {
+        push()
+        //draw nodes
+        stroke(195, 66, 59)
         strokeWeight(5)
+        this.DrawCircuitPaths();
+        pop()
+    }
+    DrawCircuitPaths(){
         for (let i = 0; i < this.inputs.length; i++) {
             line(this.x, this.y, this.GetInputPosition(i).x, this.GetInputPosition(i).y)
             if (this.inputs[i].conn) {
@@ -78,7 +90,7 @@ class EditorNode {
         for (let i = 0; i < this.outputs.length; i++) {
             line(this.x, this.y, this.GetOutputPosition(i).x, this.GetOutputPosition(i).y)
         }
-        pop()
+
     }
     DrawOutputLabel(idx) {
         let pos = this.GetOutputPosition(idx)

@@ -18,22 +18,24 @@ class EditorScreen extends GUI {
         //deselect item if let go
         this.UpdateItemSelection(x, y);
         //draw background
-        background(125)
+        background(241, 234, 210)
         push()
-        for (let i = -OFFSET.x + (frameCount / 10 % 50); i < 650 + OFFSET.x; i += 50) {
-            stroke(50, 140, 180)
-            strokeWeight(15)
-            line(i, -OFFSET.y, i - 50, 400 + OFFSET.y)
-            stroke(80, 200, 230)
-            strokeWeight(5)
-            line(i, -OFFSET.y, i - 50, 400 + OFFSET.y)
+        
+        for (let i = -OFFSET.x + (frameCount / 10 % 50); i < 800 + OFFSET.x; i += 50) {
+            stroke(230, 222, 194)
+            strokeWeight(25)
+            line(i, -OFFSET.y, i - 200, 400 + OFFSET.y)
         }
         pop()
         push()
         translate(this.tableXOffset, this.tableYOffset)
         for (let i = 0; i < this.tableObjects.length; i++) {
-            this.tableObjects[i].DrawCircuit();
+            this.tableObjects[i].DrawCircuitLayer1();
         }
+        for (let i = 0; i < this.tableObjects.length; i++) {
+            this.tableObjects[i].DrawCircuitLayer2();
+        }
+        fill (255)
         for (let i = 0; i < this.tableObjects.length; i++) {
             this.tableObjects[i].Draw();
             if ((this.itemTypeSelected == "outputNode" && this.itemSelected) || !this.itemSelected) {
@@ -57,8 +59,8 @@ class EditorScreen extends GUI {
         pop()
 
         fill(0)
-        rect(400, -OFFSET.y, 10, OFFSET.y * 2 + 400)
-        fill(100)
+        //rect(400, -OFFSET.y, 10, OFFSET.y * 2 + 400)
+        fill(214, 207, 180)
         rect(410, -OFFSET.y, 290 + OFFSET.x, OFFSET.y * 2 + 400)
         //draw menu
         let vertOffset = 20 - OFFSET.y
