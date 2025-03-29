@@ -27,6 +27,9 @@ class EditorNode {
     Draw() {
         image(this.image, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height)
     }
+    hasInteraction(x,y){
+        return false   
+    }
     DrawCircuit() {
         push()
         //draw nodes
@@ -46,6 +49,29 @@ class EditorNode {
             line(this.x, this.y, this.GetOutputPosition(i).x, this.GetOutputPosition(i).y)
         }
         pop()
+    }
+    DrawOutputLabel(idx){
+        let pos = this.GetOutputPosition(idx)
+        push ()
+        textAlign(LEFT)
+        textSize(10)
+        fill ( 255)
+        rect (pos.x + 5, pos.y  - 8, textWidth(this.outputs[idx]) + 10, 16 )
+        fill (0)
+        text (this.outputs[idx],pos.x+10,pos.y+5)
+        pop ()
+    }
+    DrawInputLabel(idx){
+        let pos = this.GetInputPosition(idx)
+        push ()
+        textAlign(LEFT)
+        textSize(10)
+        fill ( 255)
+        rect (pos.x + 5, pos.y  - 8, textWidth(this.inputs[idx].label) + 10, 16 )
+        fill (0)
+        text (this.inputs[idx].label,pos.x+10,pos.y+5)
+        pop ()
+
     }
     ClearInputNode(idx){
         this.inputs[idx].conn = false;

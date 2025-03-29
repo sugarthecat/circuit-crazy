@@ -1,7 +1,7 @@
 class EditorScreen extends GUI {
     constructor() {
         super();
-        this.itemsAvailable = [ConstantNode, AddNode, DivNode,SubNode]
+        this.itemsAvailable = [ConstantNode, AddNode, DivNode, SubNode, InputNode, OutputNode]
         this.tableObjects = []
         this.itemSelected = false;
         this.itemTypeSelected = '';
@@ -16,6 +16,124 @@ class EditorScreen extends GUI {
     }
     Draw(x, y) {
         //deselect item if let go
+        this.UpdateItemSelection(x, y);
+        //draw background
+        background(125)
+        push()
+        for (let i = -OFFSET.x + (frameCount / 10 % 50); i < 650 + OFFSET.x; i += 50) {
+            stroke(50, 140, 180)
+            strokeWeight(15)
+            line(i, -OFFSET.y, i - 50, 400 + OFFSET.y)
+            stroke(80, 200, 230)
+            strokeWeight(5)
+            line(i, -OFFSET.y, i - 50, 400 + OFFSET.y)
+        }
+        pop()
+        push()
+        translate(this.tableXOffset, this.tableYOffset)
+        for (let i = 0; i < this.tableObjects.length; i++) {
+            this.tableObjects[i].DrawCircuit();
+        }
+        for (let i = 0; i < this.tableObjects.length; i++) {
+            this.tableObjects[i].Draw();
+            if ((this.itemTypeSelected == "outputNode" && this.itemSelected) || !this.itemSelected) {
+                for (let j = 0; j < this.tableObjects[i].inputs.length; j++) {
+                    let pos = this.tableObjects[i].GetInputPosition(j);
+                    if (dist(pos.x, pos.y, x - this.tableXOffset, y - this.tableYOffset) < 50) {
+                        circle(pos.x, pos.y, 15)
+                    }
+                }
+            }
+            if ((this.itemTypeSelected == "inputNode" && this.itemSelected) || !this.itemSelected) {
+                for (let j = 0; j < this.tableObjects[i].outputs.length; j++) {
+                    let pos = this.tableObjects[i].GetOutputPosition(j);
+                    if (dist(pos.x, pos.y, x - this.tableXOffset, y - this.tableYOffset) < 50) {
+                        circle(pos.x, pos.y, 15)
+                    }
+
+                }
+            }
+        }
+        pop()
+
+        fill(0)
+        rect(400, -OFFSET.y, 10, OFFSET.y * 2 + 400)
+        fill(100)
+        rect(410, -OFFSET.y, 290 + OFFSET.x, OFFSET.y * 2 + 400)
+        //draw menu
+        let vertOffset = 20 - OFFSET.y
+        for (let i = 0; i < this.itemsAvailable.length; i++) {
+            this.itemsAvailable[i].DrawSymbol((405 + 600 + OFFSET.x - this.itemsAvailable[i].getWidth()) / 2, vertOffset)
+            vertOffset += this.itemsAvailable[i].getHeight() * 1.2;
+        }
+        this.DrawSelectedItem(x, y);
+        this.DrawLabels(x, y);
+    }
+    DrawLabels(x, y) {
+        push()
+        translate(this.tableXOffset, this.tableYOffset)
+        for (let i = 0; i < this.tableObjects.length; i++) {
+            if ((this.itemTypeSelected == "outputNode" && this.itemSelected) || !this.itemSelected) {
+                for (let j = 0; j < this.tableObjects[i].inputs.length; j++) {
+                    let pos = this.tableObjects[i].GetInputPosition(j);
+                    if (dist(pos.x, pos.y, x - this.tableXOffset, y - this.tableYOffset) < 15) {
+                        this.tableObjects[i].DrawInputLabel(j)
+                    }
+                }
+            }
+            if ((this.itemTypeSelected == "inputNode" && this.itemSelected) || !this.itemSelected) {
+                for (let j = 0; j < this.tableObjects[i].outputs.length; j++) {
+                    let pos = this.tableObjects[i].GetOutputPosition(j);
+                    if (dist(pos.x, pos.y, x - this.tableXOffset, y - this.tableYOffset) < 15) {
+                        this.tableObjects[i].DrawOutputLabel(j)
+                    }
+
+                }
+            }
+        }
+        pop()
+    }
+    DrawSelectedItem(x, y) {
+
+        //Draw selected item
+        if (this.itemSelected) {
+            if (this.itemTypeSelected == "blueprint") {
+                this.itemSelected.DrawSymbol(x - this.itemSelected.getWidth() / 2, y - this.itemSelected.getHeight() / 2)
+            } else if (this.itemTypeSelected == "instance") {
+                this.itemSelected.x = x - this.tableXOffset;
+                this.itemSelected.y = y - this.tableYOffset;
+            } else if (this.itemTypeSelected == "table") {
+                this.tableXOffset += x - this.itemSelected.x
+                this.tableYOffset += y - this.itemSelected.y
+                this.itemSelected.x = x;
+                this.itemSelected.y = y;
+            } else if (this.itemTypeSelected == "inputNode") {
+                push()
+                stroke(0)
+                strokeWeight(5)
+                line(
+                    this.itemSelected.obj.GetInputPosition(this.itemSelected.idx).x + this.tableXOffset,
+                    this.itemSelected.obj.GetInputPosition(this.itemSelected.idx).y + this.tableYOffset,
+                    x,
+                    min(y, this.itemSelected.obj.GetInputPosition(this.itemSelected.idx).y + this.tableYOffset)
+                )
+                pop()
+            } else if (this.itemTypeSelected == "outputNode") {
+                push()
+                stroke(0)
+                strokeWeight(5)
+                line(
+                    this.itemSelected.obj.GetOutputPosition(this.itemSelected.idx).x + this.tableXOffset,
+                    this.itemSelected.obj.GetOutputPosition(this.itemSelected.idx).y + this.tableYOffset,
+                    x,
+                    max(y, this.itemSelected.obj.GetOutputPosition(this.itemSelected.idx).y + this.tableYOffset)
+                )
+                pop()
+            }
+        }
+    }
+    UpdateItemSelection(x, y) {
+
         if (this.itemSelected && !mouseIsPressed) {
             if (this.itemTypeSelected == "blueprint") {
                 if (x < 400) {
@@ -58,92 +176,7 @@ class EditorScreen extends GUI {
             }
             this.itemSelected = false;
         }
-        //draw background
-        background (125)
-        push ()
-        for (let i = -OFFSET.x + (frameCount/10 % 50); i < 650 + OFFSET.x; i += 50) {
-            stroke(50,140,180)
-            strokeWeight(15)
-            line(i, -OFFSET.y, i -50, 400 + OFFSET.y)
-            stroke (80,200,230)
-            strokeWeight(5)
-            line(i, -OFFSET.y, i -50, 400 + OFFSET.y)
-        }
-        pop ()
-        push()
-        translate(this.tableXOffset, this.tableYOffset)
-        for (let i = 0; i < this.tableObjects.length; i++) {
-            this.tableObjects[i].DrawCircuit();
-        }
-        for (let i = 0; i < this.tableObjects.length; i++) {
-            this.tableObjects[i].Draw();
-            if ((this.itemTypeSelected == "outputNode" && this.itemSelected) || !this.itemSelected) {
-                for (let j = 0; j < this.tableObjects[i].inputs.length; j++) {
-                    let pos = this.tableObjects[i].GetInputPosition(j);
-                    if (dist(pos.x, pos.y, x - this.tableXOffset, y - this.tableYOffset) < 50) {
-                        circle(pos.x, pos.y, 15)
-                    }
-                }
-            }
-            if ((this.itemTypeSelected == "inputNode" && this.itemSelected) || !this.itemSelected) {
-                for (let j = 0; j < this.tableObjects[i].outputs.length; j++) {
-                    let pos = this.tableObjects[i].GetOutputPosition(j);
-                    if (dist(pos.x, pos.y, x - this.tableXOffset, y - this.tableYOffset) < 50) {
-                        circle(pos.x, pos.y, 15)
-                    }
 
-                }
-            }
-        }
-        pop()
-
-        fill(0)
-        rect(400, -OFFSET.y, 10, OFFSET.y * 2 + 400)
-        fill(100)
-        rect(410, -OFFSET.y, 290 + OFFSET.x, OFFSET.y * 2 + 400)
-        //draw menu
-        let vertOffset = 20 - OFFSET.y
-        for (let i = 0; i < this.itemsAvailable.length; i++) {
-            this.itemsAvailable[i].DrawSymbol((405 + 600 + OFFSET.x - this.itemsAvailable[i].getWidth()) / 2, vertOffset)
-            vertOffset += this.itemsAvailable[i].getHeight() * 1.2;
-        }
-        //Draw selected item
-        if (this.itemSelected) {
-            if (this.itemTypeSelected == "blueprint") {
-                this.itemSelected.DrawSymbol(x - this.itemSelected.getWidth() / 2, y - this.itemSelected.getHeight() / 2)
-            } else if (this.itemTypeSelected == "instance") {
-                this.itemSelected.x = x - this.tableXOffset;
-                this.itemSelected.y = y - this.tableYOffset;
-            } else if (this.itemTypeSelected == "table") {
-                this.tableXOffset += x - this.itemSelected.x
-                this.tableYOffset += y - this.itemSelected.y
-                this.itemSelected.x = x;
-                this.itemSelected.y = y;
-            } else if (this.itemTypeSelected == "inputNode") {
-                push()
-                stroke(0)
-                strokeWeight(5)
-                line(
-                    this.itemSelected.obj.GetInputPosition(this.itemSelected.idx).x + this.tableXOffset,
-                    this.itemSelected.obj.GetInputPosition(this.itemSelected.idx).y + this.tableYOffset,
-                    x,
-                    min(y, this.itemSelected.obj.GetInputPosition(this.itemSelected.idx).y + this.tableYOffset)
-                )
-                pop()
-            } else if (this.itemTypeSelected == "outputNode") {
-                push()
-                stroke(0)
-                strokeWeight(5)
-                line(
-                    this.itemSelected.obj.GetOutputPosition(this.itemSelected.idx).x + this.tableXOffset,
-                    this.itemSelected.obj.GetOutputPosition(this.itemSelected.idx).y + this.tableYOffset,
-                    x,
-                    max(y, this.itemSelected.obj.GetOutputPosition(this.itemSelected.idx).y + this.tableYOffset)
-                )
-                pop()
-            }
-        }
-        fill(0)
     }
     mousePressed(x, y) {
         if (x < 400) {
@@ -154,8 +187,11 @@ class EditorScreen extends GUI {
                     node.y - node.height / 2 + this.tableYOffset,
                     node.width,
                     node.height)) {
-                    this.itemSelected = node;
-                    this.itemTypeSelected = "instance"
+                    if (!node.hasInteraction(x - this.tableXOffset - node.x,
+                        y - this.tableYOffset - node.y)) {
+                        this.itemSelected = node;
+                        this.itemTypeSelected = "instance"
+                    }
                     return
                 }
             }
@@ -194,7 +230,7 @@ class EditorScreen extends GUI {
                     this.itemTypeSelected = "blueprint";
                     return;
                 }
-                vertOffset += this.itemsAvailable[i].getHeight()* 1.2;
+                vertOffset += this.itemsAvailable[i].getHeight() * 1.2;
             }
             //or the menu back
         }
