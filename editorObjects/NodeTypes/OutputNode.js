@@ -12,4 +12,9 @@ class OutputNode extends EditorNode {
     static getHeight() {
         return 40;
     }
+    getFunction(){
+        return ( (inputs)=> {
+            return [inputs[0]]
+        })
+    }
 }

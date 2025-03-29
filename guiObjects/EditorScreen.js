@@ -93,6 +93,33 @@ class EditorScreen extends GUI {
         }
         pop()
     }
+    EvaluateForInput(inputArr) {
+        let updating = true;
+        let discoveredValues = [];
+        let undiscoveredValues = []
+        for (let i = 0; i < this.tableObjects.length; i++) {
+            if (this.tableObjects[i] instanceof InputNode) {
+                discoveredValues.push([this.tableObjects[i], inputArr]);
+            } else {
+                undiscoveredValues.push(this.tableObjects[i])
+            }
+        }
+        while (updating) {
+            updating = false;
+            for (let i = 0; i < undiscoveredValues.length; i++) {
+                if (undiscoveredValues[i].CanEvaluate(discoveredValues)) {
+                    if (undiscoveredValues[i] instanceof OutputNode) {
+                        return { complete: true, output: undiscoveredValues[i].Evaluate(discoveredValues)[0] }
+                    }
+                    discoveredValues.push([undiscoveredValues[i], undiscoveredValues[i].Evaluate(discoveredValues)])
+                    undiscoveredValues.splice(i, 1)
+                    i--;
+                    updating = true;
+                }
+            }
+        }
+        return { complete: false, output: 0 }
+    }
     DrawSelectedItem(x, y) {
 
         //Draw selected item
@@ -133,21 +160,20 @@ class EditorScreen extends GUI {
         }
     }
     UpdateItemSelection(x, y) {
-
         if (this.itemSelected && !mouseIsPressed) {
             if (this.itemTypeSelected == "blueprint") {
                 if (x < 400) {
-                    if(this.itemSelected == OutputNode){
-                        for(let i = 0; i<this.tableObjects.length; i++){
-                            if(this.tableObjects[i] instanceof OutputNode){
+                    if (this.itemSelected == OutputNode) {
+                        for (let i = 0; i < this.tableObjects.length; i++) {
+                            if (this.tableObjects[i] instanceof OutputNode) {
                                 this.tableObjects[i].isDead = true;
-                                this.tableObjects.splice(i,1);
+                                this.tableObjects.splice(i, 1);
                                 i--;
                             }
                         }
                     }
                     this.tableObjects.push(new this.itemSelected(x - this.tableXOffset, y - this.tableYOffset))
-                    
+
                 }
             } else if (this.itemTypeSelected == "instance") {
                 if (x > 400) {
@@ -164,7 +190,6 @@ class EditorScreen extends GUI {
                         if (dist(pos.x, pos.y, x - this.tableXOffset, y - this.tableYOffset) < 15
                         ) {
                             this.itemSelected.obj.ConnectInputToOutput(this.itemSelected.idx, this.tableObjects[i], j);
-
                         }
 
                     }
@@ -176,9 +201,7 @@ class EditorScreen extends GUI {
                         let pos = this.tableObjects[i].GetInputPosition(j);
                         if (dist(pos.x, pos.y, x - this.tableXOffset, y - this.tableYOffset) < 15
                         ) {
-
                             this.tableObjects[i].ConnectInputToOutput(j, this.itemSelected.obj, this.itemSelected.idx);
-
                         }
 
                     }

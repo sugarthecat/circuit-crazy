@@ -15,8 +15,38 @@ class EditorNode {
         this.x = x;
         this.y = y;
     }
-    DrawLabels(x, y) {
-
+    getFunction() {
+        return (() => { return [] })
+    }
+    CanEvaluate(values) {
+        let canEval = true;
+        for (let i = 0; i < this.inputs.length; i++) {
+            if (!this.inputs[i].conn) {
+                canEval = false;
+                return;
+            } else {
+                let hasSatisfactoryMatch = false;
+                for (let j = 0; j < values.length; j++) {
+                    if (values[j][0] == this.inputs[i].conn.node) {
+                        hasSatisfactoryMatch = true;
+                    }
+                }
+                canEval = canEval && hasSatisfactoryMatch
+            }
+        }
+        return canEval
+    }
+    Evaluate(values) {
+        let functionInputs = []
+        for (let i = 0; i < this.inputs.length; i++) {
+            let conn = this.inputs[i].conn
+            for (let j = 0; j < values.length; j++) {
+                if (values[j][0] == conn.node) {
+                    functionInputs.push(values[j][1][conn.idx])
+                }
+            }
+        }
+        return this.getFunction()(functionInputs)
     }
     GetInputPosition(index) {
         return { x: this.x + (2 * (1 + index) / (1 + this.inputs.length) - 1) * this.width, y: this.y - this.height }
@@ -27,8 +57,8 @@ class EditorNode {
     Draw() {
         image(this.image, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height)
     }
-    hasInteraction(x,y){
-        return false   
+    hasInteraction(x, y) {
+        return false
     }
     DrawCircuit() {
         push()
@@ -39,8 +69,8 @@ class EditorNode {
             line(this.x, this.y, this.GetInputPosition(i).x, this.GetInputPosition(i).y)
             if (this.inputs[i].conn) {
                 let pos = this.inputs[i].conn.node.GetOutputPosition(this.inputs[i].conn.idx)
-                line(this.GetInputPosition(i).x, this.GetInputPosition(i).y,pos.x,pos.y)
-                if(this.y < this.inputs[i].conn.node.y || this.inputs[i].conn.node.isDead){
+                line(this.GetInputPosition(i).x, this.GetInputPosition(i).y, pos.x, pos.y)
+                if (this.y < this.inputs[i].conn.node.y || this.inputs[i].conn.node.isDead) {
                     this.inputs[i].conn = false;
                 }
             }
@@ -50,30 +80,30 @@ class EditorNode {
         }
         pop()
     }
-    DrawOutputLabel(idx){
+    DrawOutputLabel(idx) {
         let pos = this.GetOutputPosition(idx)
-        push ()
+        push()
         textAlign(LEFT)
         textSize(10)
-        fill ( 255)
-        rect (pos.x + 5, pos.y  - 8, textWidth(this.outputs[idx]) + 10, 16 )
-        fill (0)
-        text (this.outputs[idx],pos.x+10,pos.y+5)
-        pop ()
+        fill(255)
+        rect(pos.x + 5, pos.y - 8, textWidth(this.outputs[idx]) + 10, 16)
+        fill(0)
+        text(this.outputs[idx], pos.x + 10, pos.y + 5)
+        pop()
     }
-    DrawInputLabel(idx){
+    DrawInputLabel(idx) {
         let pos = this.GetInputPosition(idx)
-        push ()
+        push()
         textAlign(LEFT)
         textSize(10)
-        fill ( 255)
-        rect (pos.x + 5, pos.y  - 8, textWidth(this.inputs[idx].label) + 10, 16 )
-        fill (0)
-        text (this.inputs[idx].label,pos.x+10,pos.y+5)
-        pop ()
+        fill(255)
+        rect(pos.x + 5, pos.y - 8, textWidth(this.inputs[idx].label) + 10, 16)
+        fill(0)
+        text(this.inputs[idx].label, pos.x + 10, pos.y + 5)
+        pop()
 
     }
-    ClearInputNode(idx){
+    ClearInputNode(idx) {
         this.inputs[idx].conn = false;
     }
     ConnectInputToOutput(idx, other, otherIdx) {

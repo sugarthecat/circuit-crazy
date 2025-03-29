@@ -13,6 +13,9 @@ class DivNode extends EditorNode {
     }
     getFunction(){
         return ( (inputs)=> {
+            if(inputs[1] == 0){
+                return [0,inputs[0]]
+            }
             return [(inputs[0] - inputs[0] % inputs[1]) / inputs[1], inputs[0] % inputs[1]]
         })
     }
