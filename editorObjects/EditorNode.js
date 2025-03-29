@@ -37,6 +37,9 @@ class EditorNode {
             if (this.inputs[i].conn) {
                 let pos = this.inputs[i].conn.node.GetOutputPosition(this.inputs[i].conn.idx)
                 line(this.GetInputPosition(i).x, this.GetInputPosition(i).y,pos.x,pos.y)
+                if(this.y < this.inputs[i].conn.node.y || this.inputs[i].conn.node.isDead){
+                    this.inputs[i].conn = false;
+                }
             }
         }
         for (let i = 0; i < this.outputs.length; i++) {
@@ -44,8 +47,10 @@ class EditorNode {
         }
         pop()
     }
+    ClearInputNode(idx){
+        this.inputs[idx].conn = false;
+    }
     ConnectInputToOutput(idx, other, otherIdx) {
-        console.log(0)
         this.inputs[idx].conn = { node: other, idx: otherIdx }
     }
     static getSymbol() {
