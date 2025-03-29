@@ -7,7 +7,8 @@ let scaleFactor = 1;
 let volume = 1;
 let screens;
 function preload() {
-    screens = {"title": new TitleScreen(),
+    screens = {
+        "title": new TitleScreen(),
         "game": new GameScreen(),
         "editor": new EditorScreen(),
     }
@@ -28,24 +29,24 @@ function draw() {
     }
     let xTranslation = (windowWidth - scaleFactor * TARGET_SCREEN_DIMENSIONS.x) / 2
     let yTranslation = (windowHeight - scaleFactor * TARGET_SCREEN_DIMENSIONS.y) / 2
-    OFFSET.x = xTranslation;
-    OFFSET.y = yTranslation;
+    OFFSET.x = xTranslation / scaleFactor;
+    OFFSET.y = yTranslation / scaleFactor;
     translate(xTranslation, yTranslation)
 
     scale(scaleFactor, scaleFactor)
     background(0);
     let mousePosition = getMousePosition()
-    screens[screenOn].Draw(mousePosition.x,mousePosition.y);
+    screens[screenOn].Draw(mousePosition.x, mousePosition.y);
     fill(0)
     noStroke()
 }
-function mousePressed(){
+function mousePressed() {
     let mousePosition = getMousePosition()
-    screens[screenOn].mousePressed(mousePosition.x,mousePosition.y)
+    screens[screenOn].mousePressed(mousePosition.x, mousePosition.y)
 }
 function mouseClicked() {
     let mousePosition = getMousePosition()
-    screens[screenOn].HandleClick(mousePosition.x,mousePosition.y);
+    screens[screenOn].HandleClick(mousePosition.x, mousePosition.y);
 }
 function getMousePosition() {
     let mousePosition = { x: mouseX, y: mouseY }
