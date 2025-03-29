@@ -1,14 +1,15 @@
 class EditorScreen extends GUI {
     constructor() {
         super();
-        this.itemsAvailable = [ConstantNode, AddNode, DivNode, SubNode, InputNode, OutputNode]
+        this.itemsAvailable = [ConstantNode, AddNode, DivNode, SubNode, MultNode, FactorialNode,InputNode, OutputNode]
         this.tableObjects = []
+        this.inputs = []
         this.itemSelected = false;
         this.itemTypeSelected = '';
         this.tableXOffset = 0;
         this.tableYOffset = 0;
     }
-    Reset(itemsAvailable = [ConstantNode]) {
+    Reset(itemsAvailable = [ConstantNode], inputs = []) {
         this.itemsAvailable = itemsAvailable;
         this.tableObjects = []
         this.tableXOffset = 0;
@@ -18,9 +19,9 @@ class EditorScreen extends GUI {
         //deselect item if let go
         this.UpdateItemSelection(x, y);
         //draw background
-        background(241, 234, 210)
         push()
         
+        background(241, 234, 210)
         for (let i = -OFFSET.x + (frameCount / 10 % 50); i < 800 + OFFSET.x; i += 50) {
             stroke(230, 222, 194)
             strokeWeight(25)
@@ -35,7 +36,7 @@ class EditorScreen extends GUI {
         for (let i = 0; i < this.tableObjects.length; i++) {
             this.tableObjects[i].DrawCircuitLayer2();
         }
-        fill (255)
+        fill (195, 66, 59)
         for (let i = 0; i < this.tableObjects.length; i++) {
             this.tableObjects[i].Draw();
             if ((this.itemTypeSelected == "outputNode" && this.itemSelected) || !this.itemSelected) {
@@ -138,7 +139,7 @@ class EditorScreen extends GUI {
                 this.itemSelected.y = y;
             } else if (this.itemTypeSelected == "inputNode") {
                 push()
-                stroke(0)
+                stroke(195, 66, 59)
                 strokeWeight(5)
                 line(
                     this.itemSelected.obj.GetInputPosition(this.itemSelected.idx).x + this.tableXOffset,
@@ -149,8 +150,8 @@ class EditorScreen extends GUI {
                 pop()
             } else if (this.itemTypeSelected == "outputNode") {
                 push()
-                stroke(0)
-                strokeWeight(5)
+                stroke(195, 66, 59)
+                strokeWeight(8)
                 line(
                     this.itemSelected.obj.GetOutputPosition(this.itemSelected.idx).x + this.tableXOffset,
                     this.itemSelected.obj.GetOutputPosition(this.itemSelected.idx).y + this.tableYOffset,

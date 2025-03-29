@@ -7,6 +7,10 @@
         this.inputNode = loadImage("assets/input.png")
         this.outputNode = loadImage("assets/output.png")
         this.constantNode = loadImage("assets/constant.png")
+        this.factorialNode = loadImage("assets/factorialCircuit.png")
+        this.chooseNode = loadImage("assets/chooseCircuit.png")
+        this.expNode = loadImage("assets/factorialCircuit.png")
+        this.multNode = loadImage("assets/timesCircuit.png")
     }
     static setVolume(volume){
     }
