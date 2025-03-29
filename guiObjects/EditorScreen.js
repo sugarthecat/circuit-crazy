@@ -137,7 +137,17 @@ class EditorScreen extends GUI {
         if (this.itemSelected && !mouseIsPressed) {
             if (this.itemTypeSelected == "blueprint") {
                 if (x < 400) {
+                    if(this.itemSelected == OutputNode){
+                        for(let i = 0; i<this.tableObjects.length; i++){
+                            if(this.tableObjects[i] instanceof OutputNode){
+                                this.tableObjects[i].isDead = true;
+                                this.tableObjects.splice(i,1);
+                                i--;
+                            }
+                        }
+                    }
                     this.tableObjects.push(new this.itemSelected(x - this.tableXOffset, y - this.tableYOffset))
+                    
                 }
             } else if (this.itemTypeSelected == "instance") {
                 if (x > 400) {
