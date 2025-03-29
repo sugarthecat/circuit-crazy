@@ -39,6 +39,10 @@ function draw() {
     fill(0)
     noStroke()
 }
+function mousePressed(){
+    let mousePosition = getMousePosition()
+    screens[screenOn].mousePressed(mousePosition.x,mousePosition.y)
+}
 function mouseClicked() {
     let mousePosition = getMousePosition()
     screens[screenOn].HandleClick(mousePosition.x,mousePosition.y);

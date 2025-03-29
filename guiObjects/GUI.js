@@ -12,4 +12,7 @@ class GUI{
             this.elements[i].HandleClick(x,y)
         }
     }
+    mousePressed(x,y){
+
+    }
 }
