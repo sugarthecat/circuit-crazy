@@ -10,6 +10,7 @@ class EditorScreen extends GUI {
         this.tableXOffset = 0;
         this.tableYOffset = 0;
         this.menuYOffset = 0;
+        this.elements = [new Button(380,10,60,30,"Play", function(){})]
     }
     Reset(itemsAvailable = [ConstantNode], inputs = [], instructions = "") {
         this.itemsAvailable = itemsAvailable;
@@ -85,6 +86,7 @@ class EditorScreen extends GUI {
         textAlign(CENTER)
         text(this.instructions, 20 - OFFSET.x, 25 - OFFSET.y, 360 + OFFSET.x, 100)
         pop()
+        super.Draw(x,y)
     }
     DrawLabels(x, y) {
         push()
