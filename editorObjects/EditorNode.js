@@ -15,13 +15,19 @@ class EditorNode {
     DrawLabels(x, y) {
 
     }
+    GetInputPosition(index){
+        return {x:this.x + (2*(1+ index) /(1 + this.inputs.length)-1) * this.width, y: this.y - this.height}
+    }
+    GetOutputPosition(index){
+        return {x:this.x + (2*(1+ index) /(1 + this.outputs.length)-1) * this.width, y: this.y + this.height}
+    }
     Draw() {
         push ()
         //draw nodes
         stroke(0)
         strokeWeight(5)
         for(let i = 0; i<this.inputs.length; i++){
-            line (this.x,this.y, this.x + (2*(1+ i) /(1 + this.inputs.length)-1) * this.width, this.y - this.height)
+            line (this.x,this.y, this.GetInputPosition(i).x,this.GetInputPosition(i).y)
         }
         for(let i = 0; i<this.outputs.length; i++){
             line (this.x,this.y, this.x + (2*(1+ i) /(1 + this.outputs.length)-1) * this.width, this.y + this.height)
