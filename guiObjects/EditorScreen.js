@@ -5,14 +5,16 @@ class EditorScreen extends GUI {
         this.tableObjects = []
         this.inputs = []
         this.itemSelected = false;
+        this.instructions = ""
         this.itemTypeSelected = '';
         this.tableXOffset = 0;
         this.tableYOffset = 0;
         this.menuYOffset = 0;
     }
-    Reset(itemsAvailable = [ConstantNode], inputs = []) {
+    Reset(itemsAvailable = [ConstantNode], inputs = [], instructions = "") {
         this.itemsAvailable = itemsAvailable;
         this.inputs = inputs;
+        this.instructions = instructions;
         this.tableObjects = []
         this.tableXOffset = 0;
         this.tableYOffset = 0;
@@ -77,6 +79,12 @@ class EditorScreen extends GUI {
         pop()
         this.DrawSelectedItem(x, y);
         this.DrawLabels(x, y);
+        push()
+        fill(0)
+        textSize(20)
+        textAlign(CENTER)
+        text(this.instructions, 20 - OFFSET.x, 25 - OFFSET.y, 360 + OFFSET.x, 100)
+        pop()
     }
     DrawLabels(x, y) {
         push()
@@ -279,10 +287,10 @@ class EditorScreen extends GUI {
             let vertOffset = 20 - OFFSET.y
             for (let i = 0; i < this.itemsAvailable.length; i++) {
                 if (mouseInRange(
-                        (405 + 600 + OFFSET.x - this.itemsAvailable[i].getWidth()) / 2,
-                        vertOffset + this.menuYOffset,
-                        this.itemsAvailable[i].getWidth(),
-                        this.itemsAvailable[i].getHeight())) {
+                    (405 + 600 + OFFSET.x - this.itemsAvailable[i].getWidth()) / 2,
+                    vertOffset + this.menuYOffset,
+                    this.itemsAvailable[i].getWidth(),
+                    this.itemsAvailable[i].getHeight())) {
                     this.itemSelected = this.itemsAvailable[i];
                     this.itemTypeSelected = "blueprint";
                     return;
