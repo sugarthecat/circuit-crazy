@@ -1,12 +1,15 @@
 
 
+const TARGET_SCREEN_DIMENSIONS = { x: 600, y: 400 }
 const SCREEN_DIMENSIONS = { x: 600, y: 400 }
 let screenOn = "title"
 let scaleFactor = 1;
 let volume = 1;
 let screens;
 function preload() {
-    screens = {"title": new TitleScreen()}
+    screens = {"title": new TitleScreen(),
+        "game": new GameScreen()
+    }
     Assets.loadAssets()
 }
 function setup() {
@@ -15,13 +18,16 @@ function setup() {
 function draw() {
     resizeCanvas(windowWidth, windowHeight);
 
-    if (windowWidth / SCREEN_DIMENSIONS.x < windowHeight / SCREEN_DIMENSIONS.y) {
-        scaleFactor = windowWidth / SCREEN_DIMENSIONS.x
+    if (windowWidth / TARGET_SCREEN_DIMENSIONS.x < windowHeight / TARGET_SCREEN_DIMENSIONS.y) {
+        //scaled to restrict height
+        scaleFactor = windowWidth / TARGET_SCREEN_DIMENSIONS.x
     } else {
-        scaleFactor = windowHeight / SCREEN_DIMENSIONS.y;
+        //scaled to restrict width
+        scaleFactor = windowHeight / TARGET_SCREEN_DIMENSIONS.y;
     }
-    let xTranslation = (windowWidth - scaleFactor * SCREEN_DIMENSIONS.x) / 2
-    let yTranslation = (windowHeight - scaleFactor * SCREEN_DIMENSIONS.y) / 2
+    let xTranslation = (windowWidth - scaleFactor * TARGET_SCREEN_DIMENSIONS.x) / 2
+    let yTranslation = (windowHeight - scaleFactor * TARGET_SCREEN_DIMENSIONS.y) / 2
+
     translate(xTranslation, yTranslation)
 
     scale(scaleFactor, scaleFactor)
@@ -30,10 +36,6 @@ function draw() {
     screens[screenOn].Draw(mousePosition.x,mousePosition.y);
     fill(0)
     noStroke()
-    rect(-xTranslation, 0, xTranslation, 400)
-    rect(600, 0, xTranslation, 400)
-    rect(0, -yTranslation, 600, yTranslation)
-    rect(0, 400, 600, yTranslation)
 }
 function mouseClicked() {
     let mousePosition = getMousePosition()
