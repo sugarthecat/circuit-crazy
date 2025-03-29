@@ -1,15 +1,15 @@
 class DivNode extends EditorNode {
     constructor(x, y) {
-        super(x, y, 50, 50, Assets.divNode, ["Dividend", "Divisor"], ["Quotient","Remainder"]);
+        super(x, y, 40, 40, Assets.divNode, ["Dividend", "Divisor"], ["Quotient","Remainder"]);
     }
     static getSymbol(){
         return Assets.divNode;
     }
     static getWidth(){
-        return 50;
+        return 40;
     }
     static getHeight(){
-        return 50;
+        return 40;
     }
     getFunction(){
         return ( (inputs)=> {

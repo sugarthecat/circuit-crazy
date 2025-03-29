@@ -1,26 +1,29 @@
 class EditorScreen extends GUI {
     constructor() {
         super();
-        this.itemsAvailable = [ConstantNode, AddNode, DivNode, SubNode, MultNode, FactorialNode,InputNode, OutputNode]
+        this.itemsAvailable = [ConstantNode, AddNode, DivNode, SubNode, MultNode, FactorialNode, InputNode, OutputNode]
         this.tableObjects = []
         this.inputs = []
         this.itemSelected = false;
         this.itemTypeSelected = '';
         this.tableXOffset = 0;
         this.tableYOffset = 0;
+        this.menuYOffset = 0;
     }
     Reset(itemsAvailable = [ConstantNode], inputs = []) {
         this.itemsAvailable = itemsAvailable;
+        this.inputs = inputs;
         this.tableObjects = []
         this.tableXOffset = 0;
         this.tableYOffset = 0;
+        this.menuYOffset = 0;
     }
     Draw(x, y) {
         //deselect item if let go
         this.UpdateItemSelection(x, y);
         //draw background
         push()
-        
+
         background(241, 234, 210)
         for (let i = -OFFSET.x + (frameCount / 10 % 50); i < 800 + OFFSET.x; i += 50) {
             stroke(230, 222, 194)
@@ -36,7 +39,7 @@ class EditorScreen extends GUI {
         for (let i = 0; i < this.tableObjects.length; i++) {
             this.tableObjects[i].DrawCircuitLayer2();
         }
-        fill (195, 66, 59)
+        fill(195, 66, 59)
         for (let i = 0; i < this.tableObjects.length; i++) {
             this.tableObjects[i].Draw();
             if ((this.itemTypeSelected == "outputNode" && this.itemSelected) || !this.itemSelected) {
@@ -64,11 +67,14 @@ class EditorScreen extends GUI {
         fill(214, 207, 180)
         rect(410, -OFFSET.y, 290 + OFFSET.x, OFFSET.y * 2 + 400)
         //draw menu
+        push()
+        translate(0, this.menuYOffset)
         let vertOffset = 20 - OFFSET.y
         for (let i = 0; i < this.itemsAvailable.length; i++) {
             this.itemsAvailable[i].DrawSymbol((405 + 600 + OFFSET.x - this.itemsAvailable[i].getWidth()) / 2, vertOffset)
             vertOffset += this.itemsAvailable[i].getHeight() * 1.2;
         }
+        pop()
         this.DrawSelectedItem(x, y);
         this.DrawLabels(x, y);
     }
@@ -137,6 +143,14 @@ class EditorScreen extends GUI {
                 this.tableYOffset += y - this.itemSelected.y
                 this.itemSelected.x = x;
                 this.itemSelected.y = y;
+            } else if (this.itemTypeSelected == "menu") {
+                this.menuYOffset += y - this.itemSelected.y
+                this.itemSelected.y = y;
+                let vertOffset = 20 - OFFSET.y
+                for (let i = 0; i < this.itemsAvailable.length; i++) {
+                    vertOffset += this.itemsAvailable[i].getHeight() * 1.2;
+                }
+                this.menuYOffset = constrain(this.menuYOffset, min(0, 400 - OFFSET.y * 2 - vertOffset), 0)
             } else if (this.itemTypeSelected == "inputNode") {
                 push()
                 stroke(195, 66, 59)
@@ -176,6 +190,9 @@ class EditorScreen extends GUI {
                         }
                     }
                     this.tableObjects.push(new this.itemSelected(x - this.tableXOffset, y - this.tableYOffset))
+                    if (this.itemSelected == InputNode) {
+                        this.tableObjects[this.tableObjects.length - 1].outputs = this.inputs;
+                    }
 
                 }
             } else if (this.itemTypeSelected == "instance") {
@@ -261,7 +278,11 @@ class EditorScreen extends GUI {
             //select "menu" object
             let vertOffset = 20 - OFFSET.y
             for (let i = 0; i < this.itemsAvailable.length; i++) {
-                if (mouseInRange((405 + 600 + OFFSET.x - this.itemsAvailable[i].getWidth()) / 2, vertOffset, this.itemsAvailable[i].getWidth(), this.itemsAvailable[i].getHeight())) {
+                if (mouseInRange(
+                        (405 + 600 + OFFSET.x - this.itemsAvailable[i].getWidth()) / 2,
+                        vertOffset + this.menuYOffset,
+                        this.itemsAvailable[i].getWidth(),
+                        this.itemsAvailable[i].getHeight())) {
                     this.itemSelected = this.itemsAvailable[i];
                     this.itemTypeSelected = "blueprint";
                     return;
@@ -269,6 +290,10 @@ class EditorScreen extends GUI {
                 vertOffset += this.itemsAvailable[i].getHeight() * 1.2;
             }
             //or the menu back
+            if (this.itemSelected == false) {
+                this.itemTypeSelected = "menu"
+                this.itemSelected = { y: y }
+            }
         }
     }
     HandleClick(x, y) {
