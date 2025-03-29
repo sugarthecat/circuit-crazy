@@ -1,6 +1,6 @@
 class ConstantNode extends EditorNode {
     constructor(x, y) {
-        super(x, y, 80, 80, Assets.constantNode, [], ["Constant output"]);
+        super(x, y, 80, 80, Assets.constantNode, [], ["Constant number"]);
         this.value = 1;
     }
     static getSymbol() {
@@ -35,6 +35,10 @@ class ConstantNode extends EditorNode {
         fill (255)
         text(1, x + this.getWidth()/2, y + this.getHeight()/2)
         pop()
+    }
+    getFunction(){
+        let val = this.value
+        return ((inputs) => {return [val]})
     }
     Draw() {
         push ()

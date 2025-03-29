@@ -11,4 +11,9 @@ class DivNode extends EditorNode {
     static getHeight(){
         return 50;
     }
+    getFunction(){
+        return ( (inputs)=> {
+            return [(inputs[0] - inputs[0] % inputs[1]) / inputs[1], inputs[0] % inputs[1]]
+        })
+    }
 }

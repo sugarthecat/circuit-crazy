@@ -11,4 +11,7 @@ class AddNode extends EditorNode {
     static getHeight(){
         return 40;
     }
+    getFunction(){
+        return ((inputs) => {return [inputs[0]+inputs[1]]})
+    }
 }
