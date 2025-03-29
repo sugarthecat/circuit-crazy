@@ -49,10 +49,10 @@ class EditorNode {
         return this.getFunction()(functionInputs)
     }
     GetInputPosition(index) {
-        return { x: this.x + (2 * (1 + index) / (1 + this.inputs.length) - 1) * this.width, y: this.y - this.height }
+        return { x: this.x + (2 * (1 + index) / (1 + this.inputs.length) - 1) * this.width , y: this.y - this.height * 0.8 }
     }
     GetOutputPosition(index) {
-        return { x: this.x + (2 * (1 + index) / (1 + this.outputs.length) - 1) * this.width, y: this.y + this.height }
+        return { x: this.x + (2 * (1 + index) / (1 + this.outputs.length) - 1) * this.width , y: this.y + this.height * 0.8 }
     }
     Draw() {
         image(this.image, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height)
@@ -76,7 +76,7 @@ class EditorNode {
         this.DrawCircuitPaths();
         pop()
     }
-    DrawCircuitPaths(){
+    DrawCircuitPaths() {
         for (let i = 0; i < this.inputs.length; i++) {
             line(this.x, this.y, this.GetInputPosition(i).x, this.GetInputPosition(i).y)
             if (this.inputs[i].conn) {

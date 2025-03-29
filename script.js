@@ -1,5 +1,3 @@
-
-
 const TARGET_SCREEN_DIMENSIONS = { x: 600, y: 400 }
 const OFFSET = { x: 600, y: 400 }
 let screenOn = "title"
@@ -9,7 +7,7 @@ let screens;
 function preload() {
     screens = {
         "title": new TitleScreen(),
-        "game": new GameScreen(),
+        "levelselect": new LevelSelectScreen(),
         "editor": new EditorScreen(),
     }
     Assets.loadAssets()
