@@ -60,7 +60,7 @@ function VerifyCurrentSolution() {
         {
             inputs: getThreeBinaryDigits, outputs: function (input) {
 
-                return 1 - ((1 - input[0]) * (1 - input[1]) * (1 - input[2]));
+                return input[0] * input[1] * input[2] < 3;
             }
         },
 

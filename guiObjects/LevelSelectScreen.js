@@ -34,7 +34,7 @@ class LevelSelectScreen extends GUI {
         levels.push({ items: [ConstantNode, InputNode, AddNode, MultNode, OutputNode], inputs: ["X", "Y", "Z"], instructions: "Given 3 integers, x, y, and z, that can be either 0 or 1, return 1 if all of them are 1, and 0 otherwise." })
 
         //5: NAND gate
-        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, OutputNode], inputs: ["X", "Y", "Z"], instructions: "Given 2 integers, x, y and z, that can be either 0 or 1, return 1 if all of them are 0, and 0 otherwise." })
+        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, OutputNode], inputs: ["X", "Y", "Z"], instructions: "Given 3 integers, x, y and z, that can be either 0 or 1, return 1 if any of them are 0, and 0 otherwise." })
 
         //6: Divide tigers
         levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, OutputNode], inputs: ["X", "Y"], instructions: "You put x tigers in each of y cages and the loading dock. How many tigers are there in total?" })
