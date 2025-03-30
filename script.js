@@ -16,6 +16,7 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
 }
 function draw() {
+    textFont('Arial Rounded MT ExtraBold');
     resizeCanvas(windowWidth, windowHeight);
 
     if (windowWidth / TARGET_SCREEN_DIMENSIONS.x < windowHeight / TARGET_SCREEN_DIMENSIONS.y) {
