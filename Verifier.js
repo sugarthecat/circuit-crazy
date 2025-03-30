@@ -35,14 +35,14 @@ function getDuoProblemDomain() {
     }
     return cases;
 }
-function factorial(n){
-  if(n < 1) {
-	return(1);
-  }
-  else {
-    return(n*factorial(n-1));
-  }
-  
+function factorial(n) {
+    if (n < 1) {
+        return (1);
+    }
+    else {
+        return (n * factorial(n - 1));
+    }
+
 }
 function getDuoProblemDomainSmall() {
     let cases = []
@@ -82,8 +82,12 @@ function VerifyCurrentSolution() {
         //NAND gate
         {
             inputs: getThreeBinaryDigits, outputs: function (input) {
-
-                return input[0] * input[1] * input[2] < 1;
+                if (input[0] + input[1] + input[2] < 3) {
+                    return 1
+                }
+                else {
+                    return 0;
+                }
             }
         },
         //6: Tiger steak distribution
@@ -131,7 +135,7 @@ function VerifyCurrentSolution() {
         //12: (n-1)!
         {
             inputs: getNumberRange, outputs: function (input) {
-                return factorial(input[0]-1);
+                return factorial(input[0] - 1);
             }
         },
         //13: n choose k
