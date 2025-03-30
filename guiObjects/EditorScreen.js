@@ -29,6 +29,8 @@ class EditorScreen extends GUI {
         this.tableXOffset = 0;
         this.tableYOffset = 0;
         this.menuYOffset = 0;
+        this.reviewingAnswers = false;
+        this.answerReviewProg = 0;
     }
     Draw(x, y) {
         //deselect item if let go
