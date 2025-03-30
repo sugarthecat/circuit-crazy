@@ -16,6 +16,9 @@ class LevelSelectScreen extends GUI {
             strokeWeight(25)
             line(i, -OFFSET.y, i - 200, 400 + OFFSET.y)
         }
+        fill(195, 66, 59)
+        textSize(50)
+        text("Level Select", 300, 75)
         pop()
         super.Draw(x, y)
     }

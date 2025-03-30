@@ -46,8 +46,8 @@ class EditorScreen extends GUI {
         }
         pop()
         this.DrawTableObjects(x, y);
-        fill(0)
-        //rect(400, -OFFSET.y, 10, OFFSET.y * 2 + 400)
+        fill(195, 66, 59)
+        rect(400, -OFFSET.y, 10, OFFSET.y * 2 + 400)
         fill(214, 207, 180)
         rect(410, -OFFSET.y, 290 + OFFSET.x, OFFSET.y * 2 + 400)
         //draw menu
