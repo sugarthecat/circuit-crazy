@@ -64,67 +64,69 @@ class EditorScreen extends GUI {
         super.Draw(x, y)
         this.DrawInstructions()
         if (this.reviewingAnswers) {
-            this.answerReviewProg += deltaTime / 1000;
-            fill(255)
-            rect(50, 25, 500, 350 * min(this.answerReviewProg, 1))
-            if (this.answerReviewProg > 1) {
-                fill(0)
-                textSize(15)
-                textAlign(CENTER)
-                text("Input".substring(0, (this.answerReviewProg - 1) * 10), 150, 50)
-                text("Your Answer".substring(0, (this.answerReviewProg - 1.5) * 25), 300, 50)
-                text("Correct Answer".substring(0, (this.answerReviewProg - 2) * 25), 450, 50)
-            }
-            push()
-            if (this.answerReviewProg > 3) {
-                let progOffset = -3;
-                for (let i = 0; i < this.verifierOutput.cases.length; i++) {
-                    let offsetProg = this.answerReviewProg + progOffset;
-                    if (offsetProg > 0) {
-                        fill(0)
-                        textSize(25)
-                        textStyle(BOLD)
-                        text(this.verifierOutput.cases[i].input.join(", "), 150, 100 + i * 50)
-                        if (offsetProg > 1) {
-                            if (this.verifierOutput.cases[i].correct == this.verifierOutput.cases[i].output) {
-                                fill(0, 180, 0)
-                            }
-                            else {
-                                fill(180, 0, 0)
-                            }
-                        }
-                        text(this.verifierOutput.cases[i].output, 300, 100 + i * 50)
-                        fill(0)
-                        text(floor(this.verifierOutput.cases[i].correct * min(offsetProg * 2, 1)), 450, 100 + i * 50)
-
-                    }
-                    progOffset -= 1.5;
-                }
-            }
-            if (this.answerReviewProg > 12) {
-                if (this.verifierOutput.success) {
-                    fill(0, 180, 0)
-                    text("Correct!", 200, 350)
-                    if (x > 350 && x < 550 && y > 325 && y < 375) {
-                        fill(0, 120, 0)
-                    }
-                    rect(350, 325, 200, 50)
-                    fill(255)
-                    text("Level Select", 435, 360)
-                } else {
-                    fill(180, 0, 0)
-                    text(`${floor(100 * this.verifierOutput.successRate)}% Accurate`, 200, 350)
-                    if (x > 350 && x < 550 && y > 325 && y < 375) {
-                        fill(120, 0, 0)
-                    }
-                    rect(350, 325, 200, 50)
-                    fill(255)
-                    text("Retry", 435, 360)
-                }
-            }
-
-            pop()
+            this.DrawAnswerRevewPopUp(x, y);
         }
+    }
+    DrawAnswerRevewPopUp(x, y) {
+        this.answerReviewProg += deltaTime / 1000;
+        fill(255)
+        rect(50, 25, 500, 350 * min(this.answerReviewProg, 1))
+        if (this.answerReviewProg > 1) {
+            fill(0)
+            textSize(15)
+            textAlign(CENTER)
+            text("Input".substring(0, (this.answerReviewProg - 1) * 10), 150, 50)
+            text("Your Answer".substring(0, (this.answerReviewProg - 1.5) * 25), 300, 50)
+            text("Correct Answer".substring(0, (this.answerReviewProg - 2) * 25), 450, 50)
+        }
+        push()
+        if (this.answerReviewProg > 3) {
+            let progOffset = -3;
+            for (let i = 0; i < this.verifierOutput.cases.length; i++) {
+                let offsetProg = this.answerReviewProg + progOffset;
+                if (offsetProg > 0) {
+                    fill(0)
+                    textSize(25)
+                    textStyle(BOLD)
+                    text(this.verifierOutput.cases[i].input.join(", "), 150, 100 + i * 50)
+                    if (offsetProg > 1) {
+                        if (this.verifierOutput.cases[i].correct == this.verifierOutput.cases[i].output) {
+                            fill(0, 180, 0)
+                        }
+                        else {
+                            fill(180, 0, 0)
+                        }
+                    }
+                    text(this.verifierOutput.cases[i].output, 300, 100 + i * 50)
+                    fill(0)
+                    text(floor(this.verifierOutput.cases[i].correct * min(offsetProg * 2, 1)), 450, 100 + i * 50)
+
+                }
+                progOffset -= 1.5;
+            }
+        }
+        if (this.answerReviewProg > 12) {
+            if (this.verifierOutput.success) {
+                fill(0, 180, 0)
+                text("Correct!", 200, 350)
+                if (x > 350 && x < 550 && y > 325 && y < 375) {
+                    fill(0, 120, 0)
+                }
+                rect(350, 325, 200, 50)
+                fill(255)
+                text("Level Select", 435, 360)
+            } else {
+                fill(180, 0, 0)
+                text(`${floor(100 * this.verifierOutput.successRate)}% Accurate`, 200, 350)
+                if (x > 350 && x < 550 && y > 325 && y < 375) {
+                    fill(120, 0, 0)
+                }
+                rect(350, 325, 200, 50)
+                fill(255)
+                text("Retry", 435, 360)
+            }
+        }
+        pop()
     }
     DrawTableObjects(x, y) {
 
@@ -140,6 +142,8 @@ class EditorScreen extends GUI {
         for (let i = 0; i < this.tableObjects.length; i++) {
             this.tableObjects[i].Draw();
             this.tableObjects[i].Update();
+
+            //Draw a circle at the input / output positions if they can be connected
             if ((this.itemTypeSelected == "outputNode" && this.itemSelected) || !this.itemSelected) {
                 for (let j = 0; j < this.tableObjects[i].inputs.length; j++) {
                     if (this.tableObjects[i].animProgress < 1) {
@@ -198,6 +202,7 @@ class EditorScreen extends GUI {
         push()
         translate(this.tableXOffset, this.tableYOffset)
         for (let i = 0; i < this.tableObjects.length; i++) {
+            //draw output node label
             if ((this.itemTypeSelected == "outputNode" && this.itemSelected) || !this.itemSelected) {
                 for (let j = 0; j < this.tableObjects[i].inputs.length; j++) {
                     if (this.tableObjects[i].animProgress < 1) {
@@ -210,6 +215,7 @@ class EditorScreen extends GUI {
                     }
                 }
             }
+            //draw input node label
             if ((this.itemTypeSelected == "inputNode" && this.itemSelected) || !this.itemSelected) {
                 for (let j = 0; j < this.tableObjects[i].outputs.length; j++) {
                     if (this.tableObjects[i].animProgress < 1) {
@@ -226,6 +232,7 @@ class EditorScreen extends GUI {
         pop()
     }
     EvaluateForInput(inputArr) {
+        //evaluates the current circuit for the given input array
         let updating = true;
         let discoveredValues = [];
         let undiscoveredValues = []

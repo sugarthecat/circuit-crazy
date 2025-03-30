@@ -1,3 +1,4 @@
+//Functions to generate input data:
 function getNumberRange() {
     let cases = []
     for (let i = 0; i < 12; i++) {
@@ -67,6 +68,8 @@ function getThreeBinaryDigits() {
 }
 
 function VerifyCurrentSolution() {
+
+    //Format: Every entry contains a function that generates input data and a function that generates the correct output for that input data.
     const correctSolutions = [
         //count 0
         { inputs: getNumberRange, outputs: function (input) { return 0; } },
