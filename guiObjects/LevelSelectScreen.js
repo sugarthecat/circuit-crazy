@@ -49,7 +49,7 @@ class LevelSelectScreen extends GUI {
         levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, OutputNode], inputs: ["X", "Y", "Z"], instructions: "Given 3 integers, x, y and z, that can be either 0 or 1, return 1 if exactly two of them are 1, and 0 otherwise." })
 
         //10: Sum of integers to n
-        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, OutputNode], inputs: ["X"], instructions: "There are X tigers. You need to form a group of Y tigers for a hackathon. How many different ways can you make a group?" })
+        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, OutputNode], inputs: ["N"], instructions: "What is the sum of all integers up to N?" })
 
         //11: exponents
         levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, ExpNode, OutputNode,], inputs: ["N", "K"], instructions: "A tiger has n stripes. Each stripe could be k colors. How many possible stripe patterns could this tiger have?" })

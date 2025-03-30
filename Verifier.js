@@ -34,6 +34,26 @@ function getDuoProblemDomain() {
     }
     return cases;
 }
+function factorial(n){
+  if(n < 1) {
+	return(1);
+  }
+  else {
+    return(n*factorial(n-1));
+  }
+  
+}
+function getDuoProblemDomainSmall() {
+    let cases = []
+    for (let i = 1; i < 5; i++) {
+        for (let j = 1; j < 6; j++) {
+            if ((j % i) % 2 == 0) {
+                cases.push([j, i])
+            }
+        }
+    }
+    return cases;
+}
 function getThreeBinaryDigits() {
     let cases = []
     for (let i = 0; i <= 1; i++) {
@@ -80,9 +100,9 @@ function VerifyCurrentSolution() {
         //8: mini collatz
         {
             inputs: getNumberRange, outputs: function (input) {
-                if(input[0] % 2 == 0) {
+                if (input[0] % 2 == 0) {
                     return input[0] / 2;
-                }else{
+                } else {
                     return 3 * input[0] + 1;
                 }
             }
@@ -93,7 +113,46 @@ function VerifyCurrentSolution() {
                 return (input[0] + input[1] + input[2]) == 2;
             }
         },
+        //10: sum of digits up to N
+        {
+            inputs: getNumberRange, outputs: function (input) {
+                return (input[0] + 1) * (input[0]) / 2;
+            }
+        },
+        //11: n^k
+        {
+            inputs: getDuoProblemDomainSmall, outputs: function (input) {
+                return (input[0]) ** (input[1]);
+            }
+        },
+        //12: (n-1)!
+        {
+            inputs: getNumberRange, outputs: function (input) {
+                return factorial(input[0]-1);
+            }
+        },
+        //13: n choose k
+        {
+            inputs: getDualNumberRangeDecreasing, outputs: function (input) {
+                return factorial(input[0]) / (factorial(input[1]) * factorial(input[0] - input[1]));
+            }
+        },
+        //14: box theorem
+        {
+            inputs: getDuoProblemDomainSmall, outputs: function (input) {
+                return factorial(input[0] + input[1] - 1) / (factorial(input[1] - 1) * factorial(input[0]));
+            }
+        },
 
+        //15: 2^(n-1) choose k
+        {
+            inputs: getDuoProblemDomainSmall, outputs: function (input) {
+                let n = input[0] - 1;
+                let k = input[1];
+                let total = 2 ** (n) - 1;
+                return factorial(total) / (factorial(k) * factorial(total - k));
+            }
+        },
     ]
     //verify current level
     let solSet = correctSolutions[levelOn - 1];

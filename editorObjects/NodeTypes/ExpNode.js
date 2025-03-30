@@ -2,16 +2,16 @@ class ExpNode extends EditorNode {
     constructor(x, y) {
         super(x, y, 40, 40, Assets.expNode, ["Base", "Exponent"], ["Exponent"]);
     }
-    static getSymbol(){
+    static getSymbol() {
         return Assets.multNode;
     }
-    static getWidth(){
+    static getWidth() {
         return 40;
     }
-    static getHeight(){
+    static getHeight() {
         return 40;
     }
-    getFunction(){
-        return ((inputs) => {return [inputs[0]**inputs[1]]})
+    getFunction() {
+        return ((inputs) => { return [floor(inputs[0] ** inputs[1])] })
     }
 }
