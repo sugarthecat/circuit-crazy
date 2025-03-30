@@ -37,7 +37,7 @@ class LevelSelectScreen extends GUI {
         levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, OutputNode], inputs: ["X", "Y", "Z"], instructions: "Given 3 integers, x, y and z, that can be either 0 or 1, return 1 if any of them are 0, and 0 otherwise." })
 
         //6: Divide tigers
-        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, OutputNode], inputs: ["X", "Y"], instructions: "You put x tigers in each of y cages and the loading dock. How many tigers are there in total?" })
+        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, OutputNode], inputs: ["X", "Y"], instructions: "If you distribute Y steaks equally to X tigers, how many steaks does each tiger get, assuming excess steaks are thrown out?" })
 
         //7: Mod tigers 
         levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, OutputNode], inputs: ["X", "Y"], instructions: "You have x tigers. You put them into y packs. Each pack has the same number of tigers-- any leftover tigers form duos. How many duos are there?" })
@@ -46,7 +46,7 @@ class LevelSelectScreen extends GUI {
         levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, OutputNode], inputs: ["N"], instructions: "Given an integer n, if n is even return n/2. If n is odd, return 3n + 1." })
 
         //9: Exactly-2 gate
-        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, OutputNode], inputs: ["X", "Y", "Z"], instructions: "Given 3 integers, x, y and z, that can be either 0 or 1, return 1 if exactly two of them are 1, and 0 otherwise." })
+        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, OutputNode], inputs: ["X", "Y", "Z"], instructions: "Given 3 integers, x, y and z, that can be either 0 or 1, return 1 if exactly two of them are 1, and 0 otherwise." })
 
         //10: Sum of integers to n
         levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, OutputNode], inputs: ["X"], instructions: "There are X tigers. You need to form a group of Y tigers for a hackathon. How many different ways can you make a group?" })

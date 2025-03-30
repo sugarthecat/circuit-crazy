@@ -63,6 +63,36 @@ function VerifyCurrentSolution() {
                 return input[0] * input[1] * input[2] < 3;
             }
         },
+        //6: Tiger steak distribution
+        {
+            inputs: getDuoProblemDomain, outputs: function (input) {
+
+                return floor(input[1] / (input[0]));
+            }
+        },
+        //7: Tiger duos
+        {
+            inputs: getDuoProblemDomain, outputs: function (input) {
+
+                return (input[0] % input[1]) / 2;
+            }
+        },
+        //8: mini collatz
+        {
+            inputs: getNumberRange, outputs: function (input) {
+                if(input[0] % 2 == 0) {
+                    return input[0] / 2;
+                }else{
+                    return 3 * input[0] + 1;
+                }
+            }
+        },
+        //9: exactly-2 gate
+        {
+            inputs: getThreeBinaryDigits, outputs: function (input) {
+                return (input[0] + input[1] + input[2]) == 2;
+            }
+        },
 
     ]
     //verify current level
