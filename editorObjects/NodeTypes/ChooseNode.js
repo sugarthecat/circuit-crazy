@@ -1,9 +1,9 @@
 class ChooseNode extends EditorNode {
     constructor(x, y) {
-        super(x, y, 40, 40, Assets.multNode, ["N", "K"], ["N choose K"]);
+        super(x, y, 40, 40, Assets.chooseNode, ["N", "K"], ["N choose K"]);
     }
     static getSymbol(){
-        return Assets.multNode;
+        return Assets.chooseNode;
     }
     static getWidth(){
         return 40;

@@ -10,7 +10,15 @@ class EditorScreen extends GUI {
         this.tableXOffset = 0;
         this.tableYOffset = 0;
         this.menuYOffset = 0;
-        this.elements.push(new Button(380, 55, 60, 30, "Play", function () { }))
+
+        let ref = this;
+        this.verifierOutput;
+        this.reviewingAnswers = false;
+        this.answerReviewProg = 0;
+        this.elements.push(new Button(380, 55, 60, 30, "Play", function () {
+            ref.reviewingAnswers = true;
+            ref.verifierOutput = VerifyCurrentSolution();
+        }))
         this.elements.push(new Button(380, 15, 60, 30, "☰", function () { screenOn = "levelselect"; }))
     }
     Reset(itemsAvailable = [ConstantNode], inputs = [], instructions = "") {
@@ -35,37 +43,7 @@ class EditorScreen extends GUI {
             line(i, -OFFSET.y, i - 200, 400 + OFFSET.y)
         }
         pop()
-        push()
-        translate(this.tableXOffset, this.tableYOffset)
-        for (let i = 0; i < this.tableObjects.length; i++) {
-            this.tableObjects[i].DrawCircuitLayer1();
-        }
-        for (let i = 0; i < this.tableObjects.length; i++) {
-            this.tableObjects[i].DrawCircuitLayer2();
-        }
-        fill(195, 66, 59)
-        for (let i = 0; i < this.tableObjects.length; i++) {
-            this.tableObjects[i].Draw();
-            if ((this.itemTypeSelected == "outputNode" && this.itemSelected) || !this.itemSelected) {
-                for (let j = 0; j < this.tableObjects[i].inputs.length; j++) {
-                    let pos = this.tableObjects[i].GetInputPosition(j);
-                    if (dist(pos.x, pos.y, x - this.tableXOffset, y - this.tableYOffset) < 50) {
-                        circle(pos.x, pos.y, 15)
-                    }
-                }
-            }
-            if ((this.itemTypeSelected == "inputNode" && this.itemSelected) || !this.itemSelected) {
-                for (let j = 0; j < this.tableObjects[i].outputs.length; j++) {
-                    let pos = this.tableObjects[i].GetOutputPosition(j);
-                    if (dist(pos.x, pos.y, x - this.tableXOffset, y - this.tableYOffset) < 50) {
-                        circle(pos.x, pos.y, 15)
-                    }
-
-                }
-            }
-        }
-        pop()
-
+        this.DrawTableObjects(x, y);
         fill(0)
         //rect(400, -OFFSET.y, 10, OFFSET.y * 2 + 400)
         fill(214, 207, 180)
@@ -81,13 +59,116 @@ class EditorScreen extends GUI {
         pop()
         this.DrawSelectedItem(x, y);
         this.DrawLabels(x, y);
+        super.Draw(x, y)
+        this.DrawInstructions()
+        if (this.reviewingAnswers) {
+            this.answerReviewProg += deltaTime / 1000;
+            fill(255)
+            rect(50, 25, 500, 350 * min(this.answerReviewProg, 1))
+            if (this.answerReviewProg > 1) {
+                fill(0)
+                textSize(15)
+                textAlign(CENTER)
+                text("Input".substring(0, (this.answerReviewProg - 1) * 10), 150, 50)
+                text("Your Answer".substring(0, (this.answerReviewProg - 1.5) * 25), 300, 50)
+                text("Correct Answer".substring(0, (this.answerReviewProg - 2) * 25), 450, 50)
+            }
+            push()
+            if (this.answerReviewProg > 3) {
+                let progOffset = -3;
+                for (let i = 0; i < this.verifierOutput.cases.length; i++) {
+                    let offsetProg = this.answerReviewProg + progOffset;
+                    if (offsetProg > 0) {
+                        fill(0)
+                        textSize(25)
+                        textStyle(BOLD)
+                        text(this.verifierOutput.cases[i].input.join(", "), 150, 100 + i * 50)
+                        if(offsetProg > 1) {
+                            if(this.verifierOutput.cases[i].correct == this.verifierOutput.cases[i].output) {
+                                fill(0, 180, 0)
+                            }
+                            else {
+                                fill(180, 0, 0)
+                            }
+                        }
+                        text(this.verifierOutput.cases[i].output, 300, 100 + i * 50)
+                        fill(0)
+                        text(floor(this.verifierOutput.cases[i].correct * min(offsetProg * 2, 1)), 450, 100 + i * 50)
+
+                    }
+                    progOffset -= 1.5;
+                }
+            }
+            pop()
+        }
+    }
+    DrawTableObjects(x, y) {
+
         push()
-        fill(0)
+        translate(this.tableXOffset, this.tableYOffset)
+        for (let i = 0; i < this.tableObjects.length; i++) {
+            this.tableObjects[i].DrawCircuitLayer1();
+        }
+        for (let i = 0; i < this.tableObjects.length; i++) {
+            this.tableObjects[i].DrawCircuitLayer2();
+        }
+        fill(195, 66, 59)
+        for (let i = 0; i < this.tableObjects.length; i++) {
+            this.tableObjects[i].Draw();
+            this.tableObjects[i].Update();
+            if ((this.itemTypeSelected == "outputNode" && this.itemSelected) || !this.itemSelected) {
+                for (let j = 0; j < this.tableObjects[i].inputs.length; j++) {
+                    if (this.tableObjects[i].animProgress < 1) {
+                        continue;
+                    }
+                    let pos = this.tableObjects[i].GetInputPosition(j);
+                    if (dist(pos.x, pos.y, x - this.tableXOffset, y - this.tableYOffset) < 50) {
+                        circle(pos.x, pos.y, 15)
+                    }
+                }
+            }
+            if ((this.itemTypeSelected == "inputNode" && this.itemSelected) || !this.itemSelected) {
+                for (let j = 0; j < this.tableObjects[i].outputs.length; j++) {
+                    if (this.tableObjects[i].animProgress < 1) {
+                        continue;
+                    }
+                    let pos = this.tableObjects[i].GetOutputPosition(j);
+                    if (dist(pos.x, pos.y, x - this.tableXOffset, y - this.tableYOffset) < 50) {
+                        circle(pos.x, pos.y, 15)
+                    }
+
+                }
+            }
+        }
+        pop()
+    }
+    DrawInstructions() {
+
+        push()
         textSize(20)
         textAlign(CENTER)
-        text(this.instructions, 20 - OFFSET.x, 25 - OFFSET.y, 360 + OFFSET.x, 100)
+        let words = this.instructions.split(" ");
+        let yPos = 40 - OFFSET.y;
+        while (words.length > 0) {
+            //print a line
+            let newLine = [words.shift()];
+            let textW = textWidth(newLine[0])
+            while (textW < 360 && words.length > 0) {
+                newLine.push(words.shift());
+                textW += textWidth(" " + newLine[newLine.length - 1])
+            }
+            if (textW > 360) {
+                words.unshift(newLine.pop());
+            }
+            let newLineStr = newLine.join(" ")
+
+            fill(255)
+            rect(190 - OFFSET.x / 2 - textWidth(newLineStr) / 2, yPos - 15, textWidth(newLineStr) + 20, 20)
+            fill(0)
+            text(newLineStr, 200 - OFFSET.x / 2, yPos)
+            yPos += 30;
+        }
         pop()
-        super.Draw(x, y)
     }
     DrawLabels(x, y) {
         push()
@@ -95,6 +176,10 @@ class EditorScreen extends GUI {
         for (let i = 0; i < this.tableObjects.length; i++) {
             if ((this.itemTypeSelected == "outputNode" && this.itemSelected) || !this.itemSelected) {
                 for (let j = 0; j < this.tableObjects[i].inputs.length; j++) {
+                    if (this.tableObjects[i].animProgress < 1) {
+                        continue;
+                    }
+
                     let pos = this.tableObjects[i].GetInputPosition(j);
                     if (dist(pos.x, pos.y, x - this.tableXOffset, y - this.tableYOffset) < 15) {
                         this.tableObjects[i].DrawInputLabel(j)
@@ -103,6 +188,9 @@ class EditorScreen extends GUI {
             }
             if ((this.itemTypeSelected == "inputNode" && this.itemSelected) || !this.itemSelected) {
                 for (let j = 0; j < this.tableObjects[i].outputs.length; j++) {
+                    if (this.tableObjects[i].animProgress < 1) {
+                        continue;
+                    }
                     let pos = this.tableObjects[i].GetOutputPosition(j);
                     if (dist(pos.x, pos.y, x - this.tableXOffset, y - this.tableYOffset) < 15) {
                         this.tableObjects[i].DrawOutputLabel(j)
@@ -243,7 +331,9 @@ class EditorScreen extends GUI {
 
     }
     mousePressed(x, y) {
-        if (x < 400) {
+        if (this.reviewingAnswers) {
+
+        } else if (x < 400) {
             //select heavy object
             for (let i = 0; i < this.tableObjects.length; i++) {
                 let node = this.tableObjects[i]
@@ -308,6 +398,8 @@ class EditorScreen extends GUI {
         }
     }
     HandleClick(x, y) {
-        super.HandleClick(x, y)
+        if (!this.reviewingAnswers) {
+            super.HandleClick(x, y)
+        }
     }
 }
