@@ -1,6 +1,6 @@
 class ExpNode extends EditorNode {
     constructor(x, y) {
-        super(x, y, 40, 40, Assets.ExpNode, ["Base", "Exponent"], ["Exponent"]);
+        super(x, y, 40, 40, Assets.expNode, ["Base", "Exponent"], ["Exponent"]);
     }
     static getSymbol(){
         return Assets.multNode;
