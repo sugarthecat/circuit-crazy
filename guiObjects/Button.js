@@ -36,6 +36,8 @@ class Button {
         }
 
         let yOffset = this.hovered ? 3 : 0;
+        stroke(108, 18, 13);
+        strokeWeight(3);
         rect(this.x, this.y + yOffset, this.w, this.h, 8);
 
         fill(255);
