@@ -8,7 +8,7 @@ function getNumberRange() {
 function getDualNumberRange() {
     let cases = []
     for (let i = 0; i < 12; i++) {
-        for (let j = i; j < 12; j++) {
+        for (let j = 0; j < 12; j++) {
             cases.push([j, i])
         }
     }
@@ -29,7 +29,10 @@ function VerifyCurrentSolution() {
     for (let i = 0; i < data.length; i++) {
         let correctSolution = solSet.outputs(data[i]);
         let userSolution = screens.editor.EvaluateForInput(data[i]);
-        if (!userSolution.complete || userSolution.output != correctSolution) {
+        if(!userSolution.complete){
+            userSolution.output = 0;
+        }
+        if ( userSolution.output != correctSolution) {
             if (userSolution.complete) {
                 failCases.push({ input: data[i], output: userSolution.output, correct: correctSolution })
             } else {
@@ -56,5 +59,5 @@ function VerifyCurrentSolution() {
         shownCases.unshift(succCases[rand])
         succCases.splice(rand, 1);
     }
-    return { succeed: isTrue, cases: shownCases, successRate: successRate }
+    return { success: isTrue, cases: shownCases, successRate: successRate }
 }   

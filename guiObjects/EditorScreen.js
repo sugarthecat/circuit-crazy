@@ -83,8 +83,8 @@ class EditorScreen extends GUI {
                         textSize(25)
                         textStyle(BOLD)
                         text(this.verifierOutput.cases[i].input.join(", "), 150, 100 + i * 50)
-                        if(offsetProg > 1) {
-                            if(this.verifierOutput.cases[i].correct == this.verifierOutput.cases[i].output) {
+                        if (offsetProg > 1) {
+                            if (this.verifierOutput.cases[i].correct == this.verifierOutput.cases[i].output) {
                                 fill(0, 180, 0)
                             }
                             else {
@@ -99,6 +99,28 @@ class EditorScreen extends GUI {
                     progOffset -= 1.5;
                 }
             }
+            if (this.answerReviewProg > 12) {
+                if (this.verifierOutput.success) {
+                    fill(0, 180, 0)
+                    text("Correct!", 200, 350)
+                    if (x > 350 && x < 550 && y > 325 && y < 375) {
+                        fill(0, 120, 0)
+                    }
+                    rect(350, 325, 200, 50)
+                    fill(255)
+                    text("Level Select", 435, 360)
+                } else {
+                    fill(180, 0, 0)
+                    text(`${floor(100 * this.verifierOutput.successRate)}% Accurate`, 200, 350)
+                    if (x > 350 && x < 550 && y > 325 && y < 375) {
+                        fill(120, 0, 0)
+                    }
+                    rect(350, 325, 200, 50)
+                    fill(255)
+                    text("Retry", 435, 360)
+                }
+            }
+
             pop()
         }
     }
@@ -166,7 +188,7 @@ class EditorScreen extends GUI {
             rect(190 - OFFSET.x / 2 - textWidth(newLineStr) / 2, yPos - 15, textWidth(newLineStr) + 20, 20)
             fill(0)
             text(newLineStr, 200 - OFFSET.x / 2, yPos)
-            yPos += 30;
+            yPos += 25;
         }
         pop()
     }
@@ -332,7 +354,19 @@ class EditorScreen extends GUI {
     }
     mousePressed(x, y) {
         if (this.reviewingAnswers) {
-
+            if (x > 350 && x < 550 && y > 325 && y < 375) {
+                if(this.verifierOutput.success) {
+                    screenOn = "levelselect";
+                    if(levelOn == levelsUnlocked){
+                        levelsUnlocked++;
+                        screens.levelselect.ResetLevels();
+                    }
+                }
+                else {
+                    this.reviewingAnswers = false;
+                    this.answerReviewProg = 0;
+                }
+            }
         } else if (x < 400) {
             //select heavy object
             for (let i = 0; i < this.tableObjects.length; i++) {
