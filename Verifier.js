@@ -56,18 +56,14 @@ function VerifyCurrentSolution() {
         { inputs: getDualNumberRange, outputs: function (input) { return input[0] + input[1] + 3; } },
         //All three 
         { inputs: getThreeBinaryDigits, outputs: function (input) { return input[0] * input[1] * input[2]; } },
-        { inputs: getDuoProblemDomain, outputs: function (input) { return (input[0] % input[1]) / 2; } },
+        //NAND gate
         {
-            inputs: getDualNumberRangeDecreasing, outputs: function (input) {
-                let prod = 1;
-                let fac = input[1]
-                for (let i = 1; i <= input[1]; i++) {
-                    prod *= input[0] - i + 1;
-                    prod /= i;
-                }
-                return prod;
+            inputs: getThreeBinaryDigits, outputs: function (input) {
+
+                return 1 - ((1 - input[0]) * (1 - input[1]) * (1 - input[2]));
             }
         },
+
     ]
     //verify current level
     let solSet = correctSolutions[levelOn - 1];

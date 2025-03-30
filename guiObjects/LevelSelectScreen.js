@@ -32,13 +32,13 @@ class LevelSelectScreen extends GUI {
 
         //4: And gate
         levels.push({ items: [ConstantNode, InputNode, AddNode, MultNode, OutputNode], inputs: ["X", "Y", "Z"], instructions: "Given 3 integers, x, y, and z, that can be either 0 or 1, return 1 if all of them are 1, and 0 otherwise." })
-        
+
         //5: NAND gate
-        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, OutputNode], inputs: ["X", "Y"], instructions: "Given 2 integers, x and y, that can be either 0 or 1, return 0 if all of them are 0, and 1 otherwise." })
+        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, OutputNode], inputs: ["X", "Y", "Z"], instructions: "Given 2 integers, x, y and z, that can be either 0 or 1, return 1 if all of them are 0, and 0 otherwise." })
 
         //6: Divide tigers
         levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, OutputNode], inputs: ["X", "Y"], instructions: "You put x tigers in each of y cages and the loading dock. How many tigers are there in total?" })
-        
+
         //7: Mod tigers 
         levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, OutputNode], inputs: ["X", "Y"], instructions: "You have x tigers. You put them into y packs. Each pack has the same number of tigers-- any leftover tigers form duos. How many duos are there?" })
 
@@ -56,7 +56,7 @@ class LevelSelectScreen extends GUI {
 
         //12: circular permutation
         levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, FactorialNode, OutputNode], inputs: ["N"], instructions: "How many ways can you arrange n unique tigers in a circle, ignoring rotations?" })
-        
+
         //13: choose function
         levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, FactorialNode, OutputNode], inputs: ["X", "Y"], instructions: "There are X tigers. You need to form a group of Y tigers for a hackathon. How many different ways can you make a group?" })
 
