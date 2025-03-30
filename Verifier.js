@@ -160,7 +160,6 @@ function VerifyCurrentSolution() {
     let isTrue = true;
     let failCases = [];
     let succCases = [];
-    console.log(data)
     for (let i = 0; i < data.length; i++) {
         let correctSolution = solSet.outputs(data[i]);
         let userSolution = screens.editor.EvaluateForInput(data[i]);

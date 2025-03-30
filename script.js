@@ -14,6 +14,12 @@ function preload() {
 }
 function setup() {
     createCanvas(windowWidth, windowHeight);
+    if(localStorage.getItem("levelsUnlocked") === null){
+        localStorage.setItem("levelsUnlocked", 1)
+    }else{
+        levelsUnlocked = parseInt(localStorage.getItem("levelsUnlocked"))
+        screens.levelselect.ResetLevels();
+    }
 }
 function draw() {
     textFont('Arial Rounded MT ExtraBold');

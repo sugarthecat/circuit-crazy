@@ -428,6 +428,7 @@ class EditorScreen extends GUI {
                     screenOn = "levelselect";
                     if (levelOn == levelsUnlocked) {
                         levelsUnlocked++;
+                        localStorage.setItem("levelsUnlocked", levelsUnlocked);
                         screens.levelselect.ResetLevels();
                     }
                 }

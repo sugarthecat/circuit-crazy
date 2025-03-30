@@ -1,5 +1,5 @@
 
-let levelsUnlocked = 30;
+let levelsUnlocked = 1;
 let levelOn = 0;
 class LevelSelectScreen extends GUI {
     constructor() {
