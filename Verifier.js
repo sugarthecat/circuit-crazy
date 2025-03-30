@@ -34,6 +34,17 @@ function getDuoProblemDomain() {
     }
     return cases;
 }
+function getThreeBinaryDigits() {
+    let cases = []
+    for (let i = 0; i <= 1; i++) {
+        for (let j = 0; j <= 1; j++) {
+            for (let k = 0; k <= 1; k++) {
+                cases.push([i, j, k])
+            }
+        }
+    }
+    return cases
+}
 
 function VerifyCurrentSolution() {
     const correctSolutions = [
@@ -41,9 +52,10 @@ function VerifyCurrentSolution() {
         { inputs: getNumberRange, outputs: function (input) { return 0; } },
         //input to output
         { inputs: getNumberRange, outputs: function (input) { return input[0]; } },
-        //
+        //Sum plus three
         { inputs: getDualNumberRange, outputs: function (input) { return input[0] + input[1] + 3; } },
-        { inputs: getDualNumberRange, outputs: function (input) { return input[0] * (input[1] + 1); } },
+        //All three 
+        { inputs: getThreeBinaryDigits, outputs: function (input) { return input[0] * input[1] * input[2]; } },
         { inputs: getDuoProblemDomain, outputs: function (input) { return (input[0] % input[1]) / 2; } },
         {
             inputs: getDualNumberRangeDecreasing, outputs: function (input) {
