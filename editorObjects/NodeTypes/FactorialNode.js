@@ -1,6 +1,6 @@
 class FactorialNode extends EditorNode {
     constructor(x, y) {
-        super(x, y, 40, 40, Assets.factorialNode, ["Input"], ["Output"]);
+        super(x, y, 40, 40, Assets.factorialNode, ["N"], ["The Factorial of N"]);
     }
     static getSymbol() {
         return Assets.factorialNode;

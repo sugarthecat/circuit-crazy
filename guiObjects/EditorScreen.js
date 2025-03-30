@@ -356,19 +356,7 @@ class EditorScreen extends GUI {
     }
     mousePressed(x, y) {
         if (this.reviewingAnswers) {
-            if (x > 350 && x < 550 && y > 325 && y < 375) {
-                if(this.verifierOutput.success) {
-                    screenOn = "levelselect";
-                    if(levelOn == levelsUnlocked){
-                        levelsUnlocked++;
-                        screens.levelselect.ResetLevels();
-                    }
-                }
-                else {
-                    this.reviewingAnswers = false;
-                    this.answerReviewProg = 0;
-                }
-            }
+            //pass
         } else if (x < 400) {
             //select heavy object
             for (let i = 0; i < this.tableObjects.length; i++) {
@@ -434,7 +422,21 @@ class EditorScreen extends GUI {
         }
     }
     HandleClick(x, y) {
-        if (!this.reviewingAnswers) {
+        if (this.reviewingAnswers) {
+            if (x > 350 && x < 550 && y > 325 && y < 375) {
+                if (this.verifierOutput.success) {
+                    screenOn = "levelselect";
+                    if (levelOn == levelsUnlocked) {
+                        levelsUnlocked++;
+                        screens.levelselect.ResetLevels();
+                    }
+                }
+                else {
+                    this.reviewingAnswers = false;
+                    this.answerReviewProg = 0;
+                }
+            }
+        } else {
             super.HandleClick(x, y)
         }
     }
