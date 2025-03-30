@@ -52,19 +52,19 @@ class LevelSelectScreen extends GUI {
         levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, OutputNode], inputs: ["X"], instructions: "There are X tigers. You need to form a group of Y tigers for a hackathon. How many different ways can you make a group?" })
 
         //11: exponents
-        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, OutputNode], inputs: ["N", "K"], instructions: "A tiger has n stripes. Each stripe could be k colors. How many possible stripe patterns could this tiger have?" })
+        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, ExpNode, OutputNode,], inputs: ["N", "K"], instructions: "A tiger has n stripes. Each stripe could be k colors. How many possible stripe patterns could this tiger have?" })
 
         //12: circular permutation
-        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, FactorialNode, OutputNode], inputs: ["N"], instructions: "How many ways can you arrange n unique tigers in a circle, ignoring rotations?" })
+        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, FactorialNode, ExpNode, OutputNode], inputs: ["N"], instructions: "How many ways can you arrange n unique tigers in a circle, ignoring rotations?" })
 
         //13: choose function
-        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, FactorialNode, OutputNode], inputs: ["X", "Y"], instructions: "There are X tigers. You need to form a group of Y tigers for a hackathon. How many different ways can you make a group?" })
+        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, FactorialNode, ExpNode, OutputNode], inputs: ["X", "Y"], instructions: "There are X tigers. You need to form a group of Y tigers for a hackathon. How many different ways can you make a group?" })
 
         //14: box theorem
-        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, FactorialNode, ChooseNode, OutputNode], inputs: ["X", "Y"], instructions: "How many different ways could you give X identical steaks to Y unique tigers?" })
+        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, FactorialNode, ChooseNode, ExpNode, OutputNode], inputs: ["X", "Y"], instructions: "How many different ways could you give X identical steaks to Y unique tigers?" })
 
         //15: Loud Combinatorics
-        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, FactorialNode, ChooseNode, OutputNode], inputs: [], instructions: "How many ways are there to choose N codes which are K-digit or shorter binary sequences" })
+        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, FactorialNode, ChooseNode, ExpNode, OutputNode], inputs: [], instructions: "How many ways are there to choose N codes which are K-digit or shorter binary sequences" })
 
 
 
