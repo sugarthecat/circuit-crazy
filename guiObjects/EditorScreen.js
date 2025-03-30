@@ -10,8 +10,8 @@ class EditorScreen extends GUI {
         this.tableXOffset = 0;
         this.tableYOffset = 0;
         this.menuYOffset = 0;
-        this.elements.push(new Button(380, 15, 60, 30, "Play", function () { }))
-        this.elements.push(new Button(585, 15, 60, 30, "☰", function () { screenOn = "levelselect"; }))
+        this.elements.push(new Button(380, 55, 60, 30, "Play", function () { }))
+        this.elements.push(new Button(380, 15, 60, 30, "☰", function () { screenOn = "levelselect"; }))
     }
     Reset(itemsAvailable = [ConstantNode], inputs = [], instructions = "") {
         this.itemsAvailable = itemsAvailable;

@@ -8,7 +8,7 @@ class LevelSelectScreen extends GUI {
         this.elements.push(new Button(585, 15, 60, 30, "⇦", function () { screenOn = "title"; }))
     }
     Draw(x, y) {
-        background(200)
+        background(214, 207, 180)
         super.Draw(x, y)
     }
     ResetLevels() {
@@ -29,7 +29,7 @@ class LevelSelectScreen extends GUI {
         levels.push({ items: [ConstantNode, InputNode, AddNode, MultNode, OutputNode], inputs: ["X", "Y"], instructions: "You have x tigers. You put them into y buckets. Each bucket has the same number of tigers-- any leftover tigers are put away. How many tigers are left over?" })
 
         // level 6: choose
-        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, FactorialNode, OutputNode], inputs: ["X", "Y"], instructions: "There are X tigers. You need to form a group of Y tigers for a hackathon. How many unique groups of tigers can you make?" })
+        levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, FactorialNode, OutputNode], inputs: ["X", "Y"], instructions: "There are X tigers. You need to form a group of Y tigers for a hackathon. How many unique groups of tigers can you make?" })
 
         // level 7: permutations
         levels.push({ items: [ConstantNode, InputNode, AddNode, SubNode, MultNode, DivNode, FactorialNode, ChooseNode, OutputNode], inputs: ["N", "K"], instructions: "A tiger has n stripes. Each stripe could be k colors. How many possible stripe patterns could this tiger have?" })
