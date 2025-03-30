@@ -8,7 +8,15 @@ class LevelSelectScreen extends GUI {
         this.elements.push(new Button(585, 15, 60, 30, "⇦", function () { screenOn = "title"; }))
     }
     Draw(x, y) {
-        background(214, 207, 180)
+        push()
+
+        background(241, 234, 210)
+        for (let i = -OFFSET.x + (frameCount / 10 % 50); i < 800 + OFFSET.x; i += 50) {
+            stroke(230, 222, 194)
+            strokeWeight(25)
+            line(i, -OFFSET.y, i - 200, 400 + OFFSET.y)
+        }
+        pop()
         super.Draw(x, y)
     }
     ResetLevels() {

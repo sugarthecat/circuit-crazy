@@ -27,7 +27,7 @@ class LevelButton {
         stroke((0, 0, 0));
         strokeWeight(3);
         rect(this.x, this.y, this.w, this.h, 17);
-        text(this.text, this.x + this.w / 2, this.y + this.h - 15)
+        text(this.text, this.x + this.w / 2, this.y + this.h - 17)
         fill(0)
         textAlign(CENTER)
     }
