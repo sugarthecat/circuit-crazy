@@ -82,7 +82,7 @@ function VerifyCurrentSolution() {
         //NAND gate
         {
             inputs: getThreeBinaryDigits, outputs: function (input) {
-                if (input[0] + input[1] + input[2] < 3) {
+                if (input[0] + input[1] + input[2] < 1) {
                     return 1
                 }
                 else {
