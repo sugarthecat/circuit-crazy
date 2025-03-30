@@ -1,5 +1,5 @@
- class Assets{
-    static loadAssets(){
+class Assets {
+    static loadAssets() {
         this.ham = loadImage("assets/ham.jpg")
         this.addNode = loadImage("assets/addCircuit.png")
         this.divNode = loadImage("assets/divCircuit.png")
@@ -11,7 +11,8 @@
         this.chooseNode = loadImage("assets/chooseCircuit.png")
         this.expNode = loadImage("assets/factorialCircuit.png")
         this.multNode = loadImage("assets/timesCircuit.png")
+        this.titleBkgd = loadImage("assets/title_background.png")
     }
-    static setVolume(volume){
+    static setVolume(volume) {
     }
 }
